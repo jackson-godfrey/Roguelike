@@ -1,29 +1,36 @@
 package views.brainView
 
 import brain.Brain
-import org.hexworks.zircon.api.builder.data.TileBuilder
+
 import org.hexworks.zircon.api.component.renderer.ComponentRenderContext
 import org.hexworks.zircon.api.component.renderer.ComponentRenderer
-import org.hexworks.zircon.api.data.Position
 import org.hexworks.zircon.api.graphics.TileGraphics
 
 class BrainBoxRenderer (val brain: Brain) : ComponentRenderer<BrainBox> {
     override fun render(tileGraphics: TileGraphics, context: ComponentRenderContext<BrainBox>) {
+        val brainBox = context.component
+        val item = brain.getBrainItemAt(brainBox.brainGridX, brainBox.brainGridY)
 
-        val center = Position.create(2, 2)
-        val item = brain.getBrainItemAt(context.component.brainGridX, context.component.brainGridY)
-        tileGraphics.draw(
-            TileBuilder.newBuilder()
-                .withCharacter(item.getGlyph())
-                .build(),
-            center
-        )
-        item.getRotatedOutletDirections().forEach {tileGraphics.draw(
-            TileBuilder.newBuilder()
-                .withCharacter('=')
-                .build(),
-            center + it.toRelativePosition()
-        )}
+//        item.getRotatedOutletDirections().forEach {
+//            val length = when (it) {
+//                CardinalDirection.NORTH -> 2
+//                CardinalDirection.EAST -> 2
+//                CardinalDirection.SOUTH -> 2
+//                CardinalDirection.WEST -> 2
+//            }
+//
+//            for (i in 1..length) {
+//                tileGraphics.draw(
+//                    TileBuilder.newBuilder()
+//                        .withCharacter('=')
+//                        .withBackgroundColor(TileColor.transparent())
+//                        .withModifiers(Modifiers.blink())
+//                        .build(),
+//                    center + it.toRelativePosition()*i
+//                )
+//            }
+//        }
+
+        item.render(graphics = tileGraphics)
     }
-
 }

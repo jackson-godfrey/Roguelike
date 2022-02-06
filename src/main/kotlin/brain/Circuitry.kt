@@ -1,7 +1,6 @@
 package brain
 
 import main.CardinalDirection
-import org.hexworks.zircon.api.data.Position
 
 abstract class Circuitry (
     private val outletDirections: MutableList<CardinalDirection> = mutableListOf(),
@@ -18,4 +17,15 @@ abstract class Circuitry (
     fun addRandomOutletDirection() {
 
     }
+
+//    fun BrainItemRenderer.renderCircuitry(graphics: TileGraphics){
+//        graphics.draw(
+//            TileBuilder.newBuilder()
+//                .withCharacter('=')
+//                .withBackgroundColor(TileColor.transparent())
+//                .withModifiers(Modifiers.blink())
+//                .build(),
+//            Position.create(00)
+//        )
+//    }
 }

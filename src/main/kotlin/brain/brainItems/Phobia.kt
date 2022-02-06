@@ -3,14 +3,14 @@ package brain.brainItems
 import main.CardinalDirection
 
 class Phobia(
-    defaultGlyph: Char,
     inGameName: String,
+    renderer: BrainItemRenderer,
     outletDirections: MutableList<CardinalDirection> = mutableListOf(),
     passiveAbilityHolder: PassiveAbilityHolder = object:PassiveAbilityHolder {},
 
 ) : Relic(
-    defaultGlyph,
     inGameName,
+    renderer,
     outletDirections,
     passiveAbilityHolder)
 {

@@ -1,7 +1,7 @@
 package com.example.views
 
 import brain.Brain
-import org.hexworks.zircon.api.ColorThemes
+import main.GameConfig
 import org.hexworks.zircon.api.ComponentDecorations
 import org.hexworks.zircon.api.Components
 import org.hexworks.zircon.api.component.ComponentAlignment
@@ -11,7 +11,7 @@ import views.brainView.BrainView
 
 class MainMenuView(
     private val grid: TileGrid
-) : BaseView(grid, ColorThemes.arc()){
+) : BaseView(grid, GameConfig.THEME){
 
 
     init {

@@ -2,12 +2,19 @@ package brain.brainItems
 
 import brain.Circuitry
 import main.CardinalDirection
+import org.hexworks.zircon.api.graphics.TileGraphics
 
 abstract class BrainItem(
-    val defaultGlyph: Char,
     val inGameName: String,
+    renderer: BrainItemRenderer,
     outletDirections: MutableList<CardinalDirection> = mutableListOf(),
-) : Circuitry(outletDirections)
+
+) : Circuitry(outletDirections),
+        BrainItemRenderer by renderer
 {
-    open fun getGlyph() = defaultGlyph
+
+    override fun render(graphics: TileGraphics) {
+        super.render(graphics)
+        renderCircuitry(graphics)
+    }
 }

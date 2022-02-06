@@ -4,7 +4,12 @@ import main.CardinalDirection
 
 object BrainItemLibrary {
 
-    object EmptyBrainItem : BrainItem(' ', "Empty Brain Item") { }
+    object EmptyBrainItem : BrainItem("Empty Brain Item",
+        object: BrainItemRenderer {
+            override val cornering = BrainItemCornering.EmptyCornering
+            override val glyph = ' '
+        })
+    { }
 
     val allBrainItems: List<BrainItem>
     private val builderMap = HashMap<String, () -> BrainItem> ()
@@ -20,8 +25,7 @@ object BrainItemLibrary {
     }
 
     /**
-     * Returns a BrainItem constructed using [block] and adds ([itemName], [block]) as a key-value pair
-     * to the builderMap
+     * Returns a BrainItem constructed using [block] and adds a key-value pair corresponding to [block] to the builderMap
      *
      * @param[T] Sub-class of BrainItem
      * @param[block] A lambda expression of the form {name -> T(..., name, ...)}, where T() is a constructor call for T
@@ -48,11 +52,14 @@ object BrainItemLibrary {
         return listOf(
 
             buildBrainItem{
-                -> Memory('A',
-                    "Shop Memory",
-                    mutableListOf(CardinalDirection.NORTH, CardinalDirection.EAST),
-                    object : PassiveAbilityHolder {
+                -> Memory("Shop Memory",
+                    outletDirections = mutableListOf(CardinalDirection.NORTH, CardinalDirection.EAST),
+                    passiveAbilityHolder = object : PassiveAbilityHolder {
                         override fun extraShopOptions() = 1
+                    },
+
+                    renderer = object : BrainItemRenderer {
+                        override val glyph = 'M'
                     }
                 )
             }
@@ -66,11 +73,14 @@ object BrainItemLibrary {
         return listOf(
 
             buildBrainItem{
-                -> Phobia('B',
-                    "Shop Phobia",
-                    mutableListOf(CardinalDirection.NORTH),
-                    object: PassiveAbilityHolder {
+                -> Phobia("Shop Phobia",
+                    outletDirections = mutableListOf(CardinalDirection.NORTH),
+                    passiveAbilityHolder = object: PassiveAbilityHolder {
                         override fun extraShopOptions() = -1
+                    },
+
+                    renderer = object: BrainItemRenderer {
+                        override val glyph = 'P'
                     }
                 )
             }

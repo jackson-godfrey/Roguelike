@@ -1,21 +1,17 @@
 package views.brainView
 
 import brain.Brain
-import brain.brainItems.BrainItem
 import brain.brainItems.BrainItemLibrary
-import main.GameConfig.BASE_WINDOW_HEIGHT
+import main.GameConfig
 import main.GameConfig.BASE_WINDOW_WIDTH
 import main.GameConfig.BRAIN_HEIGHT
 import main.GameConfig.BRAIN_ITEM_HEIGHT
 import main.GameConfig.BRAIN_ITEM_WIDTH
 import main.GameConfig.BRAIN_WIDTH
-import main.GameConfig.DEBUG_EXTRA_HEIGHT
 import main.GameConfig.DEBUG_EXTRA_WIDTH
 import main.GameConfig.WINDOW_HEIGHT
 import main.GameConfig.isDebugMode
-import org.hexworks.zircon.api.ColorThemes
 import org.hexworks.zircon.api.Components
-import org.hexworks.zircon.api.component.Panel
 import org.hexworks.zircon.api.data.Position
 import org.hexworks.zircon.api.data.Size
 import org.hexworks.zircon.api.grid.TileGrid
@@ -25,7 +21,7 @@ import org.hexworks.zircon.internal.fragment.impl.VerticalScrollableList
 class BrainView(
     grid: TileGrid,
     private val brain: Brain
-) : BaseView(grid, ColorThemes.arc()){
+) : BaseView(grid, GameConfig.THEME){
 
     init{
         val mainPanel = Components.panel()
