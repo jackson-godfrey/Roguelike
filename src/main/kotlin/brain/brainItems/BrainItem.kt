@@ -2,7 +2,6 @@ package brain.brainItems
 
 import brain.Circuitry
 import main.CardinalDirection
-import org.hexworks.zircon.api.graphics.TileGraphics
 
 abstract class BrainItem(
     val inGameName: String,
@@ -13,8 +12,8 @@ abstract class BrainItem(
         BrainItemRenderer by renderer
 {
 
-    override fun render(graphics: TileGraphics) {
-        super.render(graphics)
-        renderCircuitry(graphics)
-    }
+//    override fun render(graphics: TileGraphics) {
+//        super.render(graphics)
+//        renderCircuitry(graphics)
+//    }
 }

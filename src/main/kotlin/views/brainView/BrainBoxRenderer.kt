@@ -1,6 +1,7 @@
 package views.brainView
 
 import brain.Brain
+import brain.brainItems.BrainItemRenderer.Companion.render
 
 import org.hexworks.zircon.api.component.renderer.ComponentRenderContext
 import org.hexworks.zircon.api.component.renderer.ComponentRenderer
