@@ -12,6 +12,7 @@ import org.hexworks.zircon.api.data.Position
 import org.hexworks.zircon.api.graphics.TileGraphics
 
 interface BrainItemRenderer {
+
     companion object {
         private val Center = Position.create(2, 2)
 
