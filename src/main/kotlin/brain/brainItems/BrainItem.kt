@@ -7,13 +7,10 @@ abstract class BrainItem(
     val inGameName: String,
     renderer: BrainItemRenderer,
     outletDirections: MutableList<CardinalDirection> = mutableListOf(),
+    isNaturalPowerSource: Boolean = false
 
-) : Circuitry(outletDirections),
+) : Circuitry(outletDirections, isNaturalPowerSource = isNaturalPowerSource),
         BrainItemRenderer by renderer
 {
 
-//    override fun render(graphics: TileGraphics) {
-//        super.render(graphics)
-//        renderCircuitry(graphics)
-//    }
 }

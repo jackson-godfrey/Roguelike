@@ -9,13 +9,26 @@ class Render {
 
     companion object {
 
-        fun TileGraphics.drawTileBackTransparent(glyph: Char,
-                                                 pos: Position,
-                                                 foreground: TileColor) {
+//        fun TileGraphics.drawTileBackTransparent(glyph: Char,
+//                                                 pos: Position,
+//                                                 foreground: TileColor) {
+//            draw(TileBuilder.newBuilder()
+//                .withCharacter(glyph)
+//                .withForegroundColor(foreground)
+//                //.withBackgroundColor(TileColor.transparent())
+//                .build(),
+//
+//                pos)
+
+
+        fun TileGraphics.drawTile(glyph: Char,
+                                  pos: Position,
+                                  foreground: TileColor,
+                                  background: TileColor) {
             draw(TileBuilder.newBuilder()
                 .withCharacter(glyph)
                 .withForegroundColor(foreground)
-                .withBackgroundColor(TileColor.transparent())
+                .withBackgroundColor(background)
                 .build(),
 
                 pos)

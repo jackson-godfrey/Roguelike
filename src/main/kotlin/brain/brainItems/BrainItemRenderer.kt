@@ -2,13 +2,14 @@ package brain.brainItems
 
 import brain.Circuitry
 import main.CardinalDirection
+import main.GameConfig
 import main.GameConfig.BRAIN_ITEM_HEIGHT
 import main.GameConfig.BRAIN_ITEM_WIDTH
-import main.Render.Companion.drawTileBackTransparent
-import org.hexworks.zircon.api.Modifiers
+import main.Render.Companion.drawTile
 import org.hexworks.zircon.api.builder.data.TileBuilder
 import org.hexworks.zircon.api.color.TileColor
 import org.hexworks.zircon.api.data.Position
+import org.hexworks.zircon.api.graphics.Symbols
 import org.hexworks.zircon.api.graphics.TileGraphics
 
 interface BrainItemRenderer {
@@ -21,47 +22,51 @@ interface BrainItemRenderer {
                 throw Exception("BrainItemRenderer: Graphics object with incorrect size passed to render()")
             renderCentralGlyph(graphics)
             renderCorners(graphics)
-            renderCircuitry(graphics)
+            renderCircuitry(graphics, lowlight)
         }
 
         private fun BrainItemRenderer.renderCentralGlyph(graphics: TileGraphics){
             graphics.draw(
                 TileBuilder.newBuilder()
                     .withCharacter(glyph)
-                    .withForegroundColor(TileColor.transparent())
-                    .withBackgroundColor(TileColor.create(80, 0, 0))
+                    .withForegroundColor(GameConfig.brainStyleSet.backgroundColor)
+                    .withBackgroundColor(lowlight)
                     .build(),
                 Center
             )
         }
 
         private fun BrainItemRenderer.renderCorners(graphics: TileGraphics){
-            val foreground: TileColor = TileColor.create(52, 52, 52)
-            graphics.drawTileBackTransparent(cornering.topLeft,
-                Center + Position.create(-1, -1), foreground)
-            graphics.drawTileBackTransparent(cornering.topRight,
-                Center + Position.create(1, -1), foreground)
-            graphics.drawTileBackTransparent(cornering.bottomLeft,
-                Center + Position.create(-1, 1), foreground)
-            graphics.drawTileBackTransparent(cornering.bottomRight,
-                Center + Position.create(1, 1), foreground)
+            val foreground: TileColor = highlight
+            val background: TileColor = GameConfig.brainStyleSet.backgroundColor
+
+            graphics.drawTile(cornering.topLeft,
+                Center + Position.create(-1, -1), foreground, background)
+            graphics.drawTile(cornering.topRight,
+                Center + Position.create(1, -1), foreground, background)
+            graphics.drawTile(cornering.bottomLeft,
+                Center + Position.create(-1, 1), foreground, background)
+            graphics.drawTile(cornering.bottomRight,
+                Center + Position.create(1, 1), foreground, background)
         }
 
-        private fun Circuitry.renderCircuitry(graphics: TileGraphics){
+        private fun Circuitry.renderCircuitry(graphics: TileGraphics, unpoweredColor: TileColor){
             getRotatedOutletDirections().forEach {
-                val length = when (it) {
-                    CardinalDirection.NORTH -> 2
-                    CardinalDirection.EAST -> 2
-                    CardinalDirection.SOUTH -> 2
-                    CardinalDirection.WEST -> 2
+
+                val char: Char = when(it){
+                    CardinalDirection.NORTH -> Symbols.DOUBLE_LINE_VERTICAL
+                    CardinalDirection.SOUTH -> Symbols.DOUBLE_LINE_VERTICAL
+                    CardinalDirection.WEST -> Symbols.DOUBLE_LINE_HORIZONTAL
+                    CardinalDirection.EAST -> Symbols.DOUBLE_LINE_HORIZONTAL
                 }
 
-                for (i in 1..length) {
+                for (i in 1..2) {
                     graphics.draw(
                         TileBuilder.newBuilder()
-                            .withCharacter('=')
-                            .withBackgroundColor(TileColor.transparent())
-                            .withModifiers(Modifiers.blink())
+                            .withCharacter(char)
+                            .withBackgroundColor(GameConfig.brainStyleSet.backgroundColor)
+                            .withForegroundColor(unpoweredColor)
+                            //.withModifiers(Modifiers.blink())
                             .build(),
                         Center + it.toRelativePosition()*i
                     )
@@ -77,4 +82,9 @@ interface BrainItemRenderer {
         get() = BrainItemCornering.DefaultCornering
 
     val glyph: Char
+
+    val lowlight: TileColor
+        get() = TileColor.create(173, 173, 173)
+    val highlight: TileColor
+        get() = TileColor.create(220, 220, 220)
 }

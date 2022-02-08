@@ -4,12 +4,13 @@ import main.CardinalDirection
 
 abstract class Circuitry (
     private val outletDirections: MutableList<CardinalDirection> = mutableListOf(),
-    private val rotatable: Boolean = true
+    private val rotatable: Boolean = true,
+    val isNaturalPowerSource: Boolean = false, //Non-natural sources can exist with certain brain configurations
 ) {
 
     //Default rotation is zero degrees
     private var rotation = CardinalDirection.NORTH
-    fun rotateCircuitry(){
+    fun rotateCircuitryClockwise(){
         if(rotatable) { rotation++ }
     }
 
@@ -18,14 +19,5 @@ abstract class Circuitry (
 
     }
 
-//    fun BrainItemRenderer.renderCircuitry(graphics: TileGraphics){
-//        graphics.draw(
-//            TileBuilder.newBuilder()
-//                .withCharacter('=')
-//                .withBackgroundColor(TileColor.transparent())
-//                .withModifiers(Modifiers.blink())
-//                .build(),
-//            Position.create(00)
-//        )
-//    }
+
 }

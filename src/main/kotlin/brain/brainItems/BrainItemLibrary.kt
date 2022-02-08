@@ -1,13 +1,17 @@
 package brain.brainItems
 
 import main.CardinalDirection
+import org.hexworks.zircon.api.color.TileColor
+import org.hexworks.zircon.api.graphics.Symbols
 
 object BrainItemLibrary {
 
     object EmptyBrainItem : BrainItem("Empty Brain Item",
         object: BrainItemRenderer {
             override val cornering = BrainItemCornering.EmptyCornering
-            override val glyph = ' '
+            override val glyph = Symbols.SOLID_SQUARE
+            //override val highlightForeground = TileColor.transparent()
+            override val lowlight = TileColor.create(80, 80, 80)
         })
     { }
 
@@ -53,15 +57,15 @@ object BrainItemLibrary {
 
             buildBrainItem{
                 -> Memory("Shop Memory",
-                    outletDirections = mutableListOf(CardinalDirection.NORTH, CardinalDirection.EAST),
-                    passiveAbilityHolder = object : PassiveAbilityHolder {
-                        override fun extraShopOptions() = 1
-                    },
+                outletDirections = mutableListOf(CardinalDirection.NORTH, CardinalDirection.EAST),
+                passiveAbilityHolder = object : PassiveAbilityHolder {
+                    override fun extraShopOptions() = 1
+                },
 
-                    renderer = object : BrainItemRenderer {
-                        override val glyph = 'M'
-                    }
-                )
+                renderer = object : BrainItemRenderer {
+                    override val glyph = 'M'
+                }
+            )
             }
 
         )
@@ -74,15 +78,27 @@ object BrainItemLibrary {
 
             buildBrainItem{
                 -> Phobia("Shop Phobia",
-                    outletDirections = mutableListOf(CardinalDirection.NORTH),
-                    passiveAbilityHolder = object: PassiveAbilityHolder {
-                        override fun extraShopOptions() = -1
-                    },
+                outletDirections = mutableListOf(CardinalDirection.NORTH),
+                passiveAbilityHolder = object: PassiveAbilityHolder {
+                    override fun extraShopOptions() = -1
+                },
 
-                    renderer = object: BrainItemRenderer {
-                        override val glyph = 'P'
-                    }
-                )
+                renderer = object: BrainItemRenderer {
+                    override val glyph = 'P'
+                }
+            )
+            },
+
+            buildBrainItem{
+                Phobia("Test Source Phobia",
+                outletDirections = mutableListOf(CardinalDirection.SOUTH),
+
+                renderer = object: BrainItemRenderer {
+                    override val glyph = 'T'
+                },
+                isNaturalPowerSource = true
+            )
+
             }
 
         )

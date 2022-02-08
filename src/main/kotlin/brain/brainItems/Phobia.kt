@@ -7,12 +7,13 @@ class Phobia(
     renderer: BrainItemRenderer,
     outletDirections: MutableList<CardinalDirection> = mutableListOf(),
     passiveAbilityHolder: PassiveAbilityHolder = object:PassiveAbilityHolder {},
-
+    isNaturalPowerSource: Boolean = false,
 ) : Relic(
     inGameName,
     renderer,
     outletDirections,
-    passiveAbilityHolder)
+    passiveAbilityHolder,
+    isNaturalPowerSource)
 {
 
 }

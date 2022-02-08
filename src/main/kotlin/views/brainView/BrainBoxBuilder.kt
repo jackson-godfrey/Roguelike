@@ -10,7 +10,6 @@ class BrainBoxBuilder(
     private val brain: Brain
 ): BaseComponentBuilder<BrainBox, BrainBoxBuilder>(
     BrainBoxRenderer(brain)
-    //DefaultBrainBoxRenderer()
 ) {
 
     init {
@@ -18,7 +17,7 @@ class BrainBoxBuilder(
     }
 
     override fun createCopy(): Builder<BrainBox> {
-        println("BrainBoxBuilder calling 'createCopy()")
+        println("BrainBoxBuilder calling 'createCopy()") //Want to see when and if this is ever called
         return BrainBoxBuilder(brainGridX, brainGridY, brain)
     }
 
@@ -28,10 +27,5 @@ class BrainBoxBuilder(
             brain,
             metadata = createMetadata(),
             renderingStrategy = createRenderingStrategy())
-//        ).also { textBox ->
-//            components.forEach {
-//                textBox.addComponent(it)
-//            }
-//        }.attachListeners()
     }
 }

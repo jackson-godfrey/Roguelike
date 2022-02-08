@@ -17,6 +17,9 @@ enum class CardinalDirection (private val i: Int) {
             WEST    -> Position.create(-1, 0)
         }
     }
+
+    fun oppositeDirection() = this + SOUTH
+
     operator fun plus(toAdd: CardinalDirection) = fromInt(toAdd.i + this.i)
     operator fun inc() = fromInt(this.i + 1)
 }

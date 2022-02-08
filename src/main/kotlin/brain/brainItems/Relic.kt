@@ -8,12 +8,14 @@ abstract class Relic(
     renderer: BrainItemRenderer,
     outletDirections: MutableList<CardinalDirection> = mutableListOf(),
     passiveAbilityHolder: PassiveAbilityHolder = object:PassiveAbilityHolder {},
+    isNaturalPowerSource: Boolean = false,
 ) : BrainItem(
     inGameName,
     renderer,
-    outletDirections),
+    outletDirections,
+    isNaturalPowerSource),
 
-    PassiveAbilityHolder by passiveAbilityHolder{
-
+    PassiveAbilityHolder by passiveAbilityHolder
+{
 
 }

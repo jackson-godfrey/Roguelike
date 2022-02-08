@@ -2,6 +2,7 @@ package brain.brainItems
 
 import org.hexworks.zircon.api.graphics.Symbols
 
+//TODO(Rename the concept of a 'cornering' to that of a 'bordering')
 data class BrainItemCornering(
     val topLeft: Char,
     val topRight: Char,
