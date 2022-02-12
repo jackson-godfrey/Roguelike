@@ -6,10 +6,10 @@ import main.CardinalDirection
 abstract class BrainItem(
     val inGameName: String,
     renderer: BrainItemRenderer,
-    outletDirections: MutableList<CardinalDirection> = mutableListOf(),
+    outletDirections: Set<CardinalDirection> = setOf(),
     isNaturalPowerSource: Boolean = false
 
-) : Circuitry(outletDirections, isNaturalPowerSource = isNaturalPowerSource),
+) : Circuitry(outletDirections.toMutableSet(), isNaturalPowerSource = isNaturalPowerSource),
         BrainItemRenderer by renderer
 {
 

@@ -1,6 +1,7 @@
 package views.brainView
 
 import brain.Brain
+import main.GameConfig
 import org.hexworks.zircon.api.builder.Builder
 import org.hexworks.zircon.api.component.builder.base.BaseComponentBuilder
 
@@ -13,7 +14,7 @@ class BrainBoxBuilder(
 ) {
 
     init {
-        withPreferredSize(5, 5)
+        withPreferredSize(GameConfig.BRAIN_ITEM_WIDTH, GameConfig.BRAIN_ITEM_HEIGHT)
     }
 
     override fun createCopy(): Builder<BrainBox> {

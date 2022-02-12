@@ -3,7 +3,7 @@ package brain
 import main.CardinalDirection
 
 abstract class Circuitry (
-    private val outletDirections: MutableList<CardinalDirection> = mutableListOf(),
+    private val outletDirections: MutableSet<CardinalDirection> = mutableSetOf(),
     private val rotatable: Boolean = true,
     val isNaturalPowerSource: Boolean = false, //Non-natural sources can exist with certain brain configurations
 ) {

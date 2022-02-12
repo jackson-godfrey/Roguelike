@@ -5,7 +5,7 @@ import main.CardinalDirection
 class Phobia(
     inGameName: String,
     renderer: BrainItemRenderer,
-    outletDirections: MutableList<CardinalDirection> = mutableListOf(),
+    outletDirections: Set<CardinalDirection> = mutableSetOf(),
     passiveAbilityHolder: PassiveAbilityHolder = object:PassiveAbilityHolder {},
     isNaturalPowerSource: Boolean = false,
 ) : Relic(

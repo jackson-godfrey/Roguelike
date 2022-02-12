@@ -12,6 +12,7 @@ import main.GameConfig.DEBUG_EXTRA_WIDTH
 import main.GameConfig.WINDOW_HEIGHT
 import main.GameConfig.isDebugMode
 import org.hexworks.zircon.api.Components
+import org.hexworks.zircon.api.component.ComponentAlignment
 import org.hexworks.zircon.api.data.Position
 import org.hexworks.zircon.api.data.Size
 import org.hexworks.zircon.api.grid.TileGrid
@@ -24,33 +25,46 @@ class BrainView(
 ) : BaseView(grid, GameConfig.THEME){
 
     init{
-        val mainPanel = Components.panel()
+        val itemGridPanel = Components.panel()
             .withPosition(0, 0)
             .withPreferredSize(BRAIN_ITEM_WIDTH * BRAIN_WIDTH, BRAIN_ITEM_HEIGHT * BRAIN_HEIGHT)
             .build()
 
-            .apply {
-                for(x in 0 until BRAIN_WIDTH)
-                    for(y in 0 until BRAIN_HEIGHT)
-                        addComponent(
-                            BrainBoxBuilder(x, y, brain)
-                                .withPreferredSize(BRAIN_ITEM_WIDTH, BRAIN_ITEM_HEIGHT)
-                                .withPosition(x*BRAIN_ITEM_WIDTH, y*BRAIN_ITEM_HEIGHT)
-                                .build())
-            }
+        screen.addComponents(itemGridPanel)
 
-        screen.addComponents(mainPanel)
+         val focusedItemBox = FocusedItemBoxBuilder(brain=brain)
+             .withAlignmentAround(itemGridPanel, ComponentAlignment.TOP_RIGHT)
+             .build()
+        screen.addComponent(focusedItemBox)
+
+        itemGridPanel.apply {
+            for(x in 0 until BRAIN_WIDTH)
+                for(y in 0 until BRAIN_HEIGHT)
+                    addComponent(
+                        BrainBoxBuilder(x, y, brain)
+                            .withPosition(x*BRAIN_ITEM_WIDTH, y*BRAIN_ITEM_HEIGHT)
+                            .build()
+                            .apply{
+                                    onActivated { _ ->
+                                        focusedItemBox.focusedItemPosition = Position.create(x, y)
+                                    }
+//                                    onDeactivated {
+//                                        focusedItemBox.focusedItemPosition = FocusedItemBox.NO_FOCUSED_POSITION
+//                                    }
+                            }
+                    )
+        }
 
         if(isDebugMode()) {
             val debugPanel = Components.panel()
                 .withPosition(BASE_WINDOW_WIDTH, 0)
                 .withPreferredSize(DEBUG_EXTRA_WIDTH, WINDOW_HEIGHT)
-                .build()
 
+                .build()
 
             debugPanel.addFragment(
                 VerticalScrollableList(
-                    size = Size.create(DEBUG_EXTRA_WIDTH, WINDOW_HEIGHT),
+                    size = Size.create(DEBUG_EXTRA_WIDTH, WINDOW_HEIGHT-10),
                     position = Position.create(0, 0),
                     BrainItemLibrary.allBrainItems,
                     onItemActivated = { item, _ ->
@@ -62,7 +76,7 @@ class BrainView(
                 )
             )
 
-            screen.addComponents(debugPanel)
+            screen.addComponent(debugPanel)
         }
 
     }

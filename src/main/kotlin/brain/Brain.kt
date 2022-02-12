@@ -3,10 +3,8 @@ package brain
 import brain.brainItems.BrainItem
 import brain.brainItems.BrainItemLibrary
 import brain.brainItems.BrainItemRenderer.Companion.render
-import main.Array2D
 import main.GameConfig.BRAIN_HEIGHT
 import main.GameConfig.BRAIN_WIDTH
-import main.create2DArray
 import main.loop
 import org.hexworks.zircon.api.data.Position
 import org.hexworks.zircon.api.graphics.TileGraphics
@@ -21,14 +19,27 @@ class Brain {
         }
     }
 
-    private val brainGrid: Array2D<BrainItem> = create2DArray(BRAIN_WIDTH, BRAIN_HEIGHT,
-        fill = BrainItemLibrary.EmptyBrainItem)
+    private val brainGrid = Array<Array<BrainItem>> (BRAIN_WIDTH) {_ ->
+        Array(BRAIN_HEIGHT) { _ ->
+            BrainItemLibrary.EmptyBrainItem
+        }
+    }
+
+    private val poweredByGrid = Array<Array<MutableSet<Position>>> (BRAIN_WIDTH) {_ ->
+        Array(BRAIN_HEIGHT) { _ ->
+            mutableSetOf()
+        }
+    }
+
+//    //TODO(Change sets of positions to sets of cores)
+//    //Hashmap relating sources to colors,
+//    private val sourceColors: HashMap<Set<Position>, TileColor> = HashMap()
 
     init {
         calculatePoweredTilesFromScratch()
     }
 
-    fun getBrainItemAt(x: Int, y: Int) : BrainItem {
+    private fun getBrainItemAt(x: Int, y: Int) : BrainItem {
         if(!inBounds(x, y))
             throw Exception("Attempted access of brainItem outside bounds of brain")
         return brainGrid[x][y] //Array indexing in Kotlin comes with error returning bound checks
@@ -36,12 +47,6 @@ class Brain {
 
     fun getBrainItemAt(pos: Position) : BrainItem {
         return getBrainItemAt(pos.x, pos.y)
-    }
-
-    private val poweredByGrid = Array<Array<MutableSet<Position>>> (BRAIN_WIDTH) {row ->
-        Array(BRAIN_HEIGHT) { col ->
-            mutableSetOf()
-        }
     }
 
     private fun calculatePoweredTilesFromScratch(){
@@ -52,6 +57,13 @@ class Brain {
                 powerSources.add(Position.create(x, y))
         }
         val checkedPowerSources: MutableSet<Position> = mutableSetOf()
+
+        //Clear the poweredByGrid, as we are calculating from scratch
+        poweredByGrid.forEach { row ->
+            row.forEach {col ->
+                col.removeAll{true}
+            }
+        }
 
         //Loop through each power source and recursively permeate power throughout connected circuit
         powerSources.forEach { pos ->
@@ -101,6 +113,7 @@ class Brain {
     fun rotateCircuitry(x: Int, y: Int){
         val item = getBrainItemAt(x, y)
         item.rotateCircuitryClockwise()
+        calculatePoweredTilesFromScratch()
     }
     private fun inBounds(pos: Position) : Boolean {
         return inBounds(pos.x, pos.y)
@@ -112,7 +125,9 @@ class Brain {
 
     //Function exists so other classes don't need to know as much
     fun callRender(x: Int, y: Int, graphics: TileGraphics) {
-        getBrainItemAt(x, y).render(graphics)
+        val item = getBrainItemAt(x, y)
+        val powered: Boolean = (poweredByGrid[x][y].size > 0)
+        item.render(graphics, powered)
     }
 
 }

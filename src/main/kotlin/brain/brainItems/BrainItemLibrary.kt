@@ -8,10 +8,9 @@ object BrainItemLibrary {
 
     object EmptyBrainItem : BrainItem("Empty Brain Item",
         object: BrainItemRenderer {
-            override val cornering = BrainItemCornering.EmptyCornering
             override val glyph = Symbols.SOLID_SQUARE
             //override val highlightForeground = TileColor.transparent()
-            override val lowlight = TileColor.create(80, 80, 80)
+            override val bordering = ItemBordering.EMPTY
         })
     { }
 
@@ -23,6 +22,7 @@ object BrainItemLibrary {
         allBrainItems.run{
             addAll(initialiseMemories())
             addAll(initialisePhobias())
+            addAll(initialiseCores())
         }
 
         this.allBrainItems = allBrainItems.toList()
@@ -57,7 +57,7 @@ object BrainItemLibrary {
 
             buildBrainItem{
                 -> Memory("Shop Memory",
-                outletDirections = mutableListOf(CardinalDirection.NORTH, CardinalDirection.EAST),
+                outletDirections = mutableSetOf(CardinalDirection.NORTH, CardinalDirection.EAST),
                 passiveAbilityHolder = object : PassiveAbilityHolder {
                     override fun extraShopOptions() = 1
                 },
@@ -78,30 +78,49 @@ object BrainItemLibrary {
 
             buildBrainItem{
                 -> Phobia("Shop Phobia",
-                outletDirections = mutableListOf(CardinalDirection.NORTH),
+                outletDirections = mutableSetOf(CardinalDirection.NORTH),
                 passiveAbilityHolder = object: PassiveAbilityHolder {
                     override fun extraShopOptions() = -1
                 },
 
                 renderer = object: BrainItemRenderer {
                     override val glyph = 'P'
+                    override val highlight = TileColor.create(234, 100, 150)
                 }
             )
             },
 
             buildBrainItem{
-                Phobia("Test Source Phobia",
-                outletDirections = mutableListOf(CardinalDirection.SOUTH),
-
+                -> Phobia("Cool New Phobia",
+                outletDirections = mutableSetOf(CardinalDirection.NORTH),
+                passiveAbilityHolder = object: PassiveAbilityHolder{},
                 renderer = object: BrainItemRenderer {
-                    override val glyph = 'T'
-                },
-                isNaturalPowerSource = true
+                    override val glyph = 'C'
+                    override val bordering = ItemBordering(
+                        cornerGlyphs = CornerGlyphSet.DOUBLE_LINE,
+                        nonCircuitryCardinalGlyphs = CardinalGlyphSet.ROTATED_DOUBLE_LINE,
+                        circuitryCardinalGlyphs = CardinalGlyphSet.JUNCTION_DOUBLE_LINE,
+                        cornersAreCircuitry = true
+                    )
+                }
             )
-
             }
 
         )
     }
     //endregion
+
+    private fun initialiseCores() : List<Core> {
+        return listOf(
+            buildBrainItem {
+                Core(
+                    "Mirror Core",
+                    outletDirections = mutableSetOf(CardinalDirection.NORTH, CardinalDirection.SOUTH),
+                    renderer = object: BrainItemRenderer {
+                         override val glyph = 'M'
+                    }
+                )
+            }
+        )
+    }
 }

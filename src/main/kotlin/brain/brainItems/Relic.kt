@@ -6,7 +6,7 @@ import main.CardinalDirection
 abstract class Relic(
     inGameName: String,
     renderer: BrainItemRenderer,
-    outletDirections: MutableList<CardinalDirection> = mutableListOf(),
+    outletDirections: Set<CardinalDirection> = mutableSetOf(),
     passiveAbilityHolder: PassiveAbilityHolder = object:PassiveAbilityHolder {},
     isNaturalPowerSource: Boolean = false,
 ) : BrainItem(

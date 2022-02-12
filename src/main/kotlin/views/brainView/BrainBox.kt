@@ -11,6 +11,7 @@ import org.hexworks.zircon.api.uievent.UIEventResponse
 import org.hexworks.zircon.internal.component.impl.DefaultComponent
 import org.hexworks.zircon.internal.component.renderer.DefaultComponentRenderingStrategy
 
+
 class BrainBox constructor(
     val brainGridX: Int,
     val brainGridY: Int,
@@ -21,6 +22,7 @@ class BrainBox constructor(
     metadata = metadata,
     renderer = renderingStrategy
 ) {
+
     override fun convertColorTheme(colorTheme: ColorTheme) = colorTheme.toPrimaryContentStyle()
     override fun focusGiven(): UIEventResponse {
         Brain.Debug.replaceWithDebugItem(brain, brainGridX, brainGridY)
@@ -34,7 +36,7 @@ class BrainBox constructor(
 
     override fun keyPressed(event: KeyboardEvent, phase: UIEventPhase): UIEventResponse {
         if(event.code == KeyCode.KEY_R){
-            brain.getBrainItemAt(brainGridX, brainGridY).rotateCircuitryClockwise()
+            brain.rotateCircuitry(brainGridX, brainGridY)
         }
         return super.keyPressed(event, phase)
     }
